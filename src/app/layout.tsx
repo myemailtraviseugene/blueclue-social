@@ -23,14 +23,14 @@ export default function RootLayout({
               <div className="max-w-6xl mx-auto px-4">
                 <div className="flex items-center justify-between h-16">
                   {/* Logo and navigation */}
-                  <div className="flex items-center gap-8">
+                  <div className="flex items-center" style={{ gap: '2.5rem' }}>
                     <Link href="/" className="text-2xl font-bold text-[#3B5998]">
                       BlueClue
                     </Link>
+                    <Link href="/feed" className="text-gray-600 hover:text-[#3B5998] font-semibold">
+                      Feed
+                    </Link>
                     <nav className="hidden md:flex items-center gap-6">
-                      <Link href="/feed" className="text-gray-600 hover:text-[#3B5998]">
-                        Feed
-                      </Link>
                       <Link href="/directory" className="text-gray-600 hover:text-[#3B5998]">
                         Directory
                       </Link>
@@ -42,6 +42,10 @@ export default function RootLayout({
 
                   {/* User profile */}
                   <div className="flex items-center gap-4">
+                    <Link href="/messages" className="text-gray-600 hover:text-[#3B5998] text-2xl" title="Messages">
+                      {/* You can replace this emoji with an SVG or icon library if desired */}
+                      <span role="img" aria-label="Messages">📧</span>
+                    </Link>
                     <Link href="/profile" className="text-gray-600 hover:text-[#3B5998]">
                       Profile
                     </Link>

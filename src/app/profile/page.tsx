@@ -14,6 +14,9 @@ export default function ProfilePage() {
 
 function ProfilePageContent() {
   const { user } = useUser();
+  const [username, setUsername] = useState(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('profile_username') || '' : ''
+  );
   const [profileDetails, setProfileDetails] = useState({
     location: '',
     occupation: '',
@@ -30,9 +33,13 @@ function ProfilePageContent() {
     return <div className="text-center text-red-500">Error: User not authenticated.</div>;
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
+    // Save username locally (not with Clerk)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('profile_username', username);
+    }
     // Logic to save profile details and image (e.g., save to database)
-    console.log('Profile saved:', profileDetails, profileImage);
+    console.log('Profile saved:', profileDetails, profileImage, username);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,7 +69,17 @@ function ProfilePageContent() {
           </div>
           <div className="flex-1 text-center md:text-left">
             <h1 className="text-2xl font-bold text-[#3B5998] mb-2">{user?.firstName} {user?.lastName}</h1>
-            <p className="text-gray-600 mb-4">@{user?.username || 'username'}</p>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-600 mb-1">Username</label>
+              <input
+                type="text"
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                placeholder="Set your username"
+                className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-[#3B5998]"
+              />
+              <p className="text-gray-600 mt-1">@{username || 'username'}</p>
+            </div>
           </div>
         </div>
       </div>
