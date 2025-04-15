@@ -2,7 +2,7 @@ import { type Metadata } from 'next';
 import { ClerkProvider, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 import Link from 'next/link';
 import './globals.css';
-import RetroSidebar from "./RetroSidebar";
+import RetroSidebar from './RetroSidebar';
 
 export const metadata: Metadata = {
   title: 'BlueClue Social',
@@ -15,14 +15,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className="bg-[#EDEFF4] min-h-screen">
+    <html lang="en">
+      <body className="bg-[#EDEFF4] min-h-screen">
+        <ClerkProvider>
           <SignedIn>
             <header className="bg-white border-b sticky top-0 z-50">
               <div className="max-w-6xl mx-auto px-4">
                 <div className="flex items-center justify-between h-16">
-                  {/* Logo and primary navigation */}
+                  {/* Logo and navigation */}
                   <div className="flex items-center gap-8">
                     <Link href="/" className="text-2xl font-bold text-[#3B5998]">
                       BlueClue
@@ -40,17 +40,17 @@ export default function RootLayout({
                     </nav>
                   </div>
 
-                  {/* User menu */}
+                  {/* User profile */}
                   <div className="flex items-center gap-4">
                     <Link href="/profile" className="text-gray-600 hover:text-[#3B5998]">
                       Profile
                     </Link>
-                    <UserButton 
+                    <UserButton
                       afterSignOutUrl="/"
                       appearance={{
                         elements: {
-                          avatarBox: "w-8 h-8"
-                        }
+                          avatarBox: 'w-8 h-8',
+                        },
                       }}
                     />
                   </div>
@@ -61,13 +61,18 @@ export default function RootLayout({
 
           <main className="flex min-h-screen">
             <RetroSidebar />
-            <div className="flex-1">
-              {children}
-            </div>
+            <div className="flex-1">{children}</div>
           </main>
 
-        </body>
-      </html>
-    </ClerkProvider>
+          <SignedOut>
+            <div className="flex items-center justify-center min-h-screen">
+              <p className="text-center text-gray-600">
+                You must be signed in to access BlueClue Social.
+              </p>
+            </div>
+          </SignedOut>
+        </ClerkProvider>
+      </body>
+    </html>
   );
 }

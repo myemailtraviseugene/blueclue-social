@@ -1,8 +1,7 @@
-"use client";
+'use client';
 
 import { useAuth } from '@clerk/nextjs';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useState } from 'react';
 import ErrorBoundary from '../ErrorBoundary';
 
@@ -10,7 +9,7 @@ function FeedPageContent() {
   const { userId } = useAuth();
   const [postText, setPostText] = useState('');
   const [image, setImage] = useState<File | null>(null);
-  const [posts, setPosts] = useState<{text: string, image?: string, createdAt: Date}[]>([]);
+  const [posts, setPosts] = useState<{ text: string; image?: string; createdAt: Date }[]>([]);
 
   if (!userId) {
     return <div className="text-center text-red-500">Error: User not authenticated.</div>;
@@ -18,10 +17,9 @@ function FeedPageContent() {
 
   const handlePost = () => {
     if (!postText && !image) return;
-    let imageUrl = '';
-    if (image) {
-      imageUrl = URL.createObjectURL(image);
-    }
+
+    const imageUrl = image ? URL.createObjectURL(image) : '';
+
     setPosts([
       {
         text: postText,
@@ -30,6 +28,7 @@ function FeedPageContent() {
       },
       ...posts,
     ]);
+
     setPostText('');
     setImage(null);
   };
@@ -55,7 +54,7 @@ function FeedPageContent() {
           </div>
           <div className="flex-1">
             <textarea 
-              placeholder="What's on your mind?"
+              placeholder="What&apos;s on your mind?"
               value={postText}
               onChange={(e) => setPostText(e.target.value)}
               className="w-full p-4 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-[#3B5998]"

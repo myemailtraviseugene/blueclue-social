@@ -12,7 +12,7 @@ export default function Home() {
           <p className="text-xl mb-8">Connect with friends and share your moments in a familiar, comfortable space.</p>
           <Image 
             src="/globe.svg" 
-            alt="Social Connection"
+            alt="Social connection illustration"
             width={300}
             height={300}
             className="mx-auto"
@@ -44,7 +44,7 @@ export default function Home() {
           <SignedIn>
             <div className="bg-white p-8 rounded-lg shadow-lg text-center">
               <h2 className="text-2xl font-bold text-[#3B5998] mb-4">Welcome Back!</h2>
-              <p className="mb-6 text-gray-600">Ready to see what's new?</p>
+              <p className="mb-6 text-gray-600">Ready to see what&apos;s new?</p>
               <Link 
                 href="/feed" 
                 className="inline-block bg-[#3B5998] text-white px-6 py-3 rounded-md hover:bg-[#365899] transition-colors"
