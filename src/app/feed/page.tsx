@@ -2,7 +2,7 @@
 
 import { useAuth, useUser } from '@clerk/nextjs';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ErrorBoundary from '../ErrorBoundary';
 
 function extractYouTubeId(url: string): string | null {
@@ -32,30 +32,41 @@ function FeedPageContent() {
   const getLocalUsername = () =>
     typeof window !== 'undefined' ? localStorage.getItem('profile_username') || '' : '';
 
+  useEffect(() => {
+    fetch('/api/posts')
+      .then(res => res.json())
+      .then(data => setPosts(data));
+  }, []);
+
   if (!userId) {
     return <div className="text-center text-red-500">Error: User not authenticated.</div>;
   }
 
-  const handlePost = () => {
+  const handlePost = async () => {
     if (!postText && !image) return;
 
     const imageUrl = image ? URL.createObjectURL(image) : '';
     const localUsername = getLocalUsername();
 
-    setPosts([
-      {
-        text: postText,
-        image: imageUrl,
-        createdAt: new Date(),
-        likes: 0,
-        liked: false,
-        comments: [],
-        userId: userId!,
-        name: localUsername || (user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : user?.username || 'User'),
-        imageUrl: user?.imageUrl || '/file.svg',
-      },
-      ...posts,
-    ]);
+    const newPost = {
+      text: postText,
+      image: imageUrl,
+      createdAt: new Date(),
+      likes: 0,
+      liked: false,
+      comments: [],
+      userId: userId!,
+      name: localUsername || (user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : user?.username || 'User'),
+      imageUrl: user?.imageUrl || '/file.svg',
+    };
+
+    await fetch('/api/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newPost),
+    });
+
+    setPosts([newPost, ...posts]);
 
     setPostText('');
     setImage(null);

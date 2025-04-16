@@ -1,4 +1,4 @@
-import { defineStackbitConfig, SiteMapEntry } from "@stackbit/types";
+import { defineStackbitConfig, SiteMapEntry, SiteMapParams } from "@stackbit/types";
 import { GitContentSource } from "@stackbit/cms-git";
 
 export default defineStackbitConfig({
@@ -20,10 +20,10 @@ export default defineStackbitConfig({
       ],
     })
   ],
-  siteMap: ({ documents }) => {
+  siteMap: ({ documents }: SiteMapParams) => {
     return documents
-      .filter((doc) => doc.modelName === "Page")
-      .map((doc) => ({
+      .filter((doc: any) => doc.modelName === "Page")
+      .map((doc: any) => ({
         stableId: doc.id,
         urlPath: `/${doc.slug}`,
         document: doc,
